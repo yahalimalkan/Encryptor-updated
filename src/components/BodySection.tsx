@@ -1,7 +1,7 @@
 import {Grid} from "@mui/material";
-import FileHandler from "./FileHandler";
+import FileHandler from "./files/FileHandler";
 import ActionSelector from "./ActionSelector";
-import AlgorithmCreator from "./AlgorithmCreator";
+import AlgorithmCreator from "./algorithms/AlgorithmCreator";
 
 
 const BodySection = () => {

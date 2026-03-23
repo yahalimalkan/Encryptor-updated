@@ -1,6 +1,10 @@
 import { Box, Button } from "@mui/material";
+import {UseAppStore} from "../store/UseAppStore";
+
 
 const Executor = () => {
+
+    const { algorithm } = UseAppStore();
 
     return (
         <Box
@@ -23,7 +27,9 @@ const Executor = () => {
                         backgroundColor: "#1f6fe0",
                         transform: "scale(1.05)",
                     },
-                }}>
+                }}
+                onClick={() => {alert(algorithm)}}
+            >
                 Start process
             </Button>
         </Box>

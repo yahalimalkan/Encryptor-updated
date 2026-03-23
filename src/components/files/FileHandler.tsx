@@ -1,19 +1,18 @@
 import React, { type ChangeEvent} from 'react';
 import {Box, Button, Typography, Paper, } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-
 import FileImport from "./FileImport";
-import {useAppContext} from "../contexts/AppContext";
+import {UseAppStore} from "../../store/UseAppStore";
 
 const FileHandler: React.FC = () => {
 
-    const { selectedFile, setSelectedFile } = useAppContext();
+    const { mainFile, setMainFile } = UseAppStore();
 
     const handleFileChange =
         (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            setSelectedFile(file);
+            setMainFile(file);
         }
     };
 
@@ -30,7 +29,7 @@ const FileHandler: React.FC = () => {
                     ניהול קבצים
                 </Typography>
 
-                {!selectedFile ? (
+                {!mainFile ? (
                     <Button
                         component="label"
                         variant="contained"
@@ -44,7 +43,7 @@ const FileHandler: React.FC = () => {
                         />
                     </Button>
                 ) : (
-                    <FileImport file={selectedFile} setFile={setSelectedFile} />
+                    <FileImport file={mainFile} setFile={setMainFile} />
                 )}
             </Box>
         </Paper>

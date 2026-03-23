@@ -1,7 +1,7 @@
 import {Box, Button, Chip, Paper, Stack} from "@mui/material";
 import {useState} from "react";
 import AlgoDialog from "./AlgoDialog";
-import {useAppContext} from "../contexts/AppContext";
+import {UseAppStore} from "../../store/UseAppStore";
 
 export interface AlgorithmConfig {
     type: string;
@@ -14,7 +14,7 @@ const AlgorithmCreator: React.FC = () => {
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
-    const { algorithms, setAlgorithms } = useAppContext();
+    const { algorithm, setAlgorithm } = UseAppStore();
 
     const handleSaveAlgorithm = (newAlgo: string[]): void => {
         const hasEmpty = newAlgo.some(item => item === "");
@@ -22,7 +22,7 @@ const AlgorithmCreator: React.FC = () => {
             alert("Please enter valid Algorithms");
             setIsDialogOpen(true);
         } else {
-            setAlgorithms(newAlgo);
+            setAlgorithm(newAlgo);
             setIsDialogOpen(false);
         }
     };
@@ -43,7 +43,7 @@ const AlgorithmCreator: React.FC = () => {
                 position: "relative",
                 py: 1
             }}>
-                {algorithms.length === 0 ?
+                {algorithm.length === 0 ?
                     <Button variant="contained"
                             color="primary"
                             sx={{
@@ -72,7 +72,7 @@ const AlgorithmCreator: React.FC = () => {
                                     transform: "scale(1.05)",
                                 },
                             }}
-                            onClick={() => setAlgorithms([])}
+                            onClick={() => setAlgorithm([])}
                     >
                         מחק אלגוריתמים
                     </Button>
@@ -88,7 +88,7 @@ const AlgorithmCreator: React.FC = () => {
                     mt: 4
                 }}>
                     <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" justifyContent="center">
-                        {algorithms.map((algo, index) => (
+                        {algorithm.map((algo, index) => (
                             <Chip
                                 key={index}
                                 label={algo}

@@ -1,12 +1,12 @@
 import {FormControl, Paper, FormLabel, RadioGroup, Radio, FormControlLabel, Box} from "@mui/material";
 import {useState} from "react";
 import DecryptionDialog from "./DecryptionDialog";
-import FileImport from "./FileImport";
-import {useAppContext} from "../contexts/AppContext";
+import FileImport from "./files/FileImport";
+import {UseAppStore} from "../store/UseAppStore";
 import {DECRYPTION, ENCRYPTION} from "../utils/Constants";
 
 const ActionSelector = () => {
-    const {keyFile, setKeyFile} = useAppContext();
+    const {keyFile, setKeyFile} = UseAppStore();
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 

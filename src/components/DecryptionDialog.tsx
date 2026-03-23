@@ -5,7 +5,7 @@ import {
     DialogTitle,
 } from '@mui/material';
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import {useAppContext} from "../contexts/AppContext";
+import {UseAppStore} from "../store/UseAppStore";
 
 interface DecryptionDialogProps {
     open: boolean;
@@ -15,8 +15,7 @@ interface DecryptionDialogProps {
 const DecryptionDialog: React.FC<DecryptionDialogProps> =
     ({open, Close}) => {
 
-        const {setKeyFile} = useAppContext();
-
+        const {setKeyFile} = UseAppStore();
 
         const handleFileChange =
             (event: ChangeEvent<HTMLInputElement>) => {
