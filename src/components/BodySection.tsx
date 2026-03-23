@@ -1,7 +1,8 @@
-import {Grid, Paper} from "@mui/material";
+import {Grid} from "@mui/material";
 import FileHandler from "./FileHandler";
 import ActionSelector from "./ActionSelector";
 import AlgorithmCreator from "./AlgorithmCreator";
+
 
 const BodySection = () => {
     return (
@@ -16,7 +17,6 @@ const BodySection = () => {
               }}>
             <Grid size={4} sx={{height: '100%'}}>
                     <FileHandler />
-
             </Grid>
 
             <Grid size={4} sx={{ height: '100%' }}>
@@ -25,7 +25,6 @@ const BodySection = () => {
 
             <Grid size={4} sx={{ height: '100%' }}>
                     <AlgorithmCreator />
-
             </Grid>
         </Grid>
     );

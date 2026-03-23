@@ -25,15 +25,23 @@ interface AlgoDialogProps {
     onSave: (algos: string[]) => void;
 }
 
+const DOUBLE = 'Double';
+const REVERSE = 'Reverse';
+const XOR = 'Xor';
+const MULTIPLICATION = 'Multiplication';
+const CEASER = 'Ceaser';
+
+
+
 const AlgoDialog: React.FC<AlgoDialogProps> = ({open, onClose, onSave}) => {
     const [rootAlgo, setRootAlgo] = useState<AlgoNode>({type: ''});
 
     const flatten = (node: AlgoNode): string[] => {
-        if (node.type === 'DOUBLE' && node.childA && node.childB) {
-            return ['DOUBLE', ...flatten(node.childA), ...flatten(node.childB)];
+        if (node.type === DOUBLE && node.childA && node.childB) {
+            return [DOUBLE , ...flatten(node.childA), ...flatten(node.childB)];
         }
-        if (node.type === 'REVERSE' && node.innerChild) {
-            return ['REVERSE', ...flatten(node.innerChild)];
+        if (node.type === REVERSE && node.innerChild) {
+            return [REVERSE, ...flatten(node.innerChild)];
         }
         return [node.type];
     };
@@ -41,7 +49,6 @@ const AlgoDialog: React.FC<AlgoDialogProps> = ({open, onClose, onSave}) => {
     const handleSave = () => {
         const flatResult = flatten(rootAlgo);
         onSave(flatResult);
-        onClose();
     };
 
     return (
@@ -62,20 +69,19 @@ const AlgoDialog: React.FC<AlgoDialogProps> = ({open, onClose, onSave}) => {
     );
 };
 
-// קומפוננטה פנימית שמנהלת את הבחירה בכל שלב
 const RecursiveSelector: React.FC<{
     node: AlgoNode;
     onChange: (newNode: AlgoNode) => void;
     label: string;
-}> = ({node, onChange, label}) => {
+    }> = ({node, onChange, label}) => {
 
     const handleChange = (type: string) => {
         const newNode: AlgoNode = {type};
         // אתחול ילדים במידה ונבחר סוג מורכב
-        if (type === 'REVERSE') newNode.innerChild = {type: 'XOR'};
-        if (type === 'DOUBLE') {
-            newNode.childA = {type: 'XOR'};
-            newNode.childB = {type: 'XOR'};
+        if (type === REVERSE) newNode.innerChild = {type: ''};
+        if (type === DOUBLE) {
+            newNode.childA = {type: ''};
+            newNode.childB = {type: ''};
         }
         onChange(newNode);
     };
@@ -84,29 +90,29 @@ const RecursiveSelector: React.FC<{
         <Box sx={{
             mt: 2,
             p: 1,
-            borderLeft: node.type === 'DOUBLE' || node.type === 'REVERSE' ? '2px solid #1976d2' : 'none',
+            borderLeft: node.type === DOUBLE || node.type === REVERSE ? '2px solid #1976d2' : 'none',
             pl: 2
         }}>
             <Typography variant="caption" color="textSecondary">{label}</Typography>
             <FormControl fullWidth size="small" sx={{mb: 1}}>
                 <Select value={node.type} onChange={(e) => handleChange(e.target.value)}>
-                    <MenuItem value="XOR">XOR</MenuItem>
-                    <MenuItem value="CAESAR">CAESAR</MenuItem>
-                    <MenuItem value="MULTIPLICATION">MULTIPLICATION</MenuItem>
-                    <MenuItem value="REVERSE">REVERSE</MenuItem>
-                    <MenuItem value="DOUBLE">DOUBLE</MenuItem>
+                    <MenuItem value={XOR}>{XOR.toUpperCase()}</MenuItem>
+                    <MenuItem value={CEASER}>{CEASER.toUpperCase()}</MenuItem>
+                    <MenuItem value={MULTIPLICATION}>{MULTIPLICATION.toUpperCase()}</MenuItem>
+                    <MenuItem value={REVERSE}>{REVERSE.toUpperCase()}</MenuItem>
+                    <MenuItem value={DOUBLE}>{DOUBLE.toUpperCase()}</MenuItem>
                 </Select>
             </FormControl>
 
             {/* כאן קורה הקסם - הרקורסיה */}
-            {node.type === 'REVERSE' && node.innerChild && (
+            {node.type === REVERSE && node.innerChild && (
                 <RecursiveSelector
                     label="אלגוריתם פנימי"
                     node={node.innerChild}
                     onChange={(c) => onChange({...node, innerChild: c})}
                 />
             )}
-            {node.type === 'DOUBLE' && node.childA && node.childB && (
+            {node.type === DOUBLE && node.childA && node.childB && (
                 <Box sx={{display: 'flex', flexDirection: 'column', gap: 1}}>
                     <RecursiveSelector
                         label="ענף א'"

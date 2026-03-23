@@ -1,10 +1,10 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
 
 function Header() {
     return (
         <Box
             sx={{
+                width: "100%",
                 height: "25vh",
                 display: "flex",
                 justifyContent: "center",
@@ -15,7 +15,7 @@ function Header() {
                 fontSize: 36,
             }}
         >
-            <Typography variant="h3">Encryption System</Typography>
+            <Typography variant="h3" sx={{ fontWeight: "bold" }}>Encryption System</Typography>
         </Box>
     );
 }

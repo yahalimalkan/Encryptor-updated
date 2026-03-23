@@ -1,6 +1,7 @@
-import {Box, Button, Paper} from "@mui/material";
+import {Box, Button, Chip, Paper, Stack} from "@mui/material";
 import {useState} from "react";
 import AlgoDialog from "./AlgoDialog";
+import {useAppContext} from "../contexts/AppContext";
 
 export interface AlgorithmConfig {
     type: string;
@@ -13,10 +14,17 @@ const AlgorithmCreator: React.FC = () => {
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
-    const [algorithms, setAlgorithms] = useState<string[]>([]);
+    const { algorithms, setAlgorithms } = useAppContext();
 
     const handleSaveAlgorithm = (newAlgo: string[]): void => {
-        setAlgorithms(newAlgo);
+        const hasEmpty = newAlgo.some(item => item === "");
+        if (hasEmpty) {
+            alert("Please enter valid Algorithms");
+            setIsDialogOpen(true);
+        } else {
+            setAlgorithms(newAlgo);
+            setIsDialogOpen(false);
+        }
     };
 
     return (
@@ -27,10 +35,13 @@ const AlgorithmCreator: React.FC = () => {
             }}
         >
             <Box sx={{
-                height: 120,
+                minHeight: "20vh",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                flexDirection: "column",
+                position: "relative",
+                py: 1
             }}>
                 {algorithms.length === 0 ?
                     <Button variant="contained"
@@ -61,6 +72,7 @@ const AlgorithmCreator: React.FC = () => {
                                     transform: "scale(1.05)",
                                 },
                             }}
+                            onClick={() => setAlgorithms([])}
                     >
                         מחק אלגוריתמים
                     </Button>
@@ -72,8 +84,19 @@ const AlgorithmCreator: React.FC = () => {
                     onSave={handleSaveAlgorithm}
                 />
 
-                <Box sx={{}}>
-                    {algorithms.toString()}
+                <Box sx={{
+                    mt: 4
+                }}>
+                    <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" justifyContent="center">
+                        {algorithms.map((algo, index) => (
+                            <Chip
+                                key={index}
+                                label={algo}
+                                color="primary"
+                                variant="outlined"
+                            />
+                        ))}
+                    </Stack>
                 </Box>
 
             </Box>

@@ -1,7 +1,7 @@
-import React from "react";
 import { Box, Button } from "@mui/material";
 
-function Executor() {
+const Executor = () => {
+
     return (
         <Box
             sx={{
@@ -23,8 +23,7 @@ function Executor() {
                         backgroundColor: "#1f6fe0",
                         transform: "scale(1.05)",
                     },
-                }}
-            >
+                }}>
                 Start process
             </Button>
         </Box>
