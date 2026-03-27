@@ -10,7 +10,7 @@ function App() {
                 height: "100vh",
                 display: "flex",
                 flexDirection: "column",
-                overflow: "auto",
+                overflow: "hidden",
                 alignItems: "center",
                 justifyContent: "center",
             }}

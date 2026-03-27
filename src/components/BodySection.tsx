@@ -13,17 +13,18 @@ const BodySection = () => {
                   width: '100%',
                   p: 2,               // מרווח מהקצוות
                   m: 0,
-                  boxSizing: 'border-box'
+                  boxSizing: 'border-box',
+                  overflow: 'auto',
               }}>
-            <Grid size={4} sx={{height: '100%'}}>
+            <Grid size={4} sx={{height: '100%', minWidth: '300px'}}>
                     <FileHandler />
             </Grid>
 
-            <Grid size={4} sx={{ height: '100%' }}>
+            <Grid size={4} sx={{ height: '100%', minWidth: '300px' }}>
                     <ActionSelector />
             </Grid>
 
-            <Grid size={4} sx={{ height: '100%' }}>
+            <Grid size={4} sx={{ height: '100%', minWidth: '300px' }}>
                     <AlgorithmCreator />
             </Grid>
         </Grid>

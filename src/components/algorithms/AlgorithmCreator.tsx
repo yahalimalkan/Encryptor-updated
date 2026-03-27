@@ -88,7 +88,7 @@ const AlgorithmCreator: React.FC = () => {
                     mt: 4
                 }}>
                     <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" justifyContent="center">
-                        {algorithm.map((algo, index) => (
+                        {algorithm  .map((algo, index) => (
                             <Chip
                                 key={index}
                                 label={algo}
