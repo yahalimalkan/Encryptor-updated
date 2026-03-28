@@ -36,7 +36,12 @@ const FileApi = {
             responseType: 'blob',
         });
         return response.data;
-    }
+    },
+
+    getFileById: async (id: string): Promise<FileDTO> => {
+        const response = await apiClient.get<FileDTO>(`/files/${id}`);
+        return response.data;
+    },
 };
 
 export default FileApi;

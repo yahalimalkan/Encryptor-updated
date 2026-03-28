@@ -67,9 +67,10 @@ const FileTableManagement: React.FC = () => {
         }
     };
 
-    const handleDownload = async (file: FileDTO) => {
+    const handleDownload = async (id: string) => {
         try {
-            const blob = await FileApi.downloadFile(file.id);
+            const file = await FileApi.getFileById(id);
+            const blob = await FileApi.downloadFile(id);
             const url = window.URL.createObjectURL(new Blob([blob]));
             const link = document.createElement('a');
             link.href = url;
@@ -83,10 +84,15 @@ const FileTableManagement: React.FC = () => {
         }
     };
 
-    const handleOpenRename = (file: FileDTO) => {
-        setSelectedFile(file);
-        setNewName(file.name);
-        setRenameDialogOpen(true);
+    const handleOpenRename = async (id: string) => {
+        try {
+            const file = await FileApi.getFileById(id);
+            setSelectedFile(file);
+            setNewName(file.name);
+            setRenameDialogOpen(true);
+        } catch (err) {
+            alert("לא ניתן לטעון את פרטי הקובץ לעריכה");
+        }
     };
 
     const handleConfirmRename = async () => {
@@ -146,10 +152,10 @@ const FileTableManagement: React.FC = () => {
             sortable: false,
             renderCell: (params: GridRenderCellParams<FileDTO>) => (
                 <Stack direction="row" spacing={0.5} justifyContent="flex-end" width="100%">
-                    <IconButton size="small" onClick={() => handleOpenRename(params.row)}>
+                    <IconButton size="small" onClick={() => handleOpenRename(params.row.id)}>
                         <EditIcon fontSize="small" color="primary" />
                     </IconButton>
-                    <IconButton size="small" onClick={() => handleDownload(params.row)}>
+                    <IconButton size="small" onClick={() => handleDownload(params.row.id)}>
                         <DownloadIcon fontSize="small" color="success" />
                     </IconButton>
                     <IconButton size="small" onClick={() => handleDelete(params.row.id)}>
