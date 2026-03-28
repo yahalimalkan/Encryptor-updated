@@ -1,18 +1,29 @@
 import {type ChangeEvent, useState} from 'react';
-import {Button, Typography, Paper, Box, Stack} from '@mui/material';
+import {
+    Button,
+    Typography,
+    Paper,
+    Stack,
+    DialogTitle,
+    Dialog,
+    IconButton,
+    DialogContent,
+    DialogActions
+} from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileImport from "./FileImport";
 import {UseAppStore} from "../../store/UseAppStore";
+import CloseIcon from '@mui/icons-material/Close';
 import FileTableManagement from "./FileTableManagement";
 import {
-    VisibilityOff as HideIcon,
+
     Visibility as ShowIcon
 } from '@mui/icons-material';
 
 const FileHandler: React.FC = () => {
 
     const {mainFile, setMainFile} = UseAppStore();
-    const [showTable, setShowTable] = useState<boolean>(true);
+    const [openTable, setOpenTable] = useState<boolean>(false);
 
     const handleFileChange =
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -64,34 +75,40 @@ const FileHandler: React.FC = () => {
                     <FileImport file={mainFile} setFile={setMainFile}/>
                 )}
 
-                {/* כפתור השליטה */}
                 <Button
+                    component="label"
                     variant="contained"
-                    color={showTable ? "secondary" : "primary"}
-                    startIcon={showTable ? <HideIcon/> : <ShowIcon/>}
-                    onClick={() => setShowTable(!showTable)}
+                    startIcon={<ShowIcon />}
+                    onClick={() => setOpenTable(true)} // פתיחת הדיאלוג
                 >
-                    {showTable ? "הסתר טבלת קבצים" : "הצג טבלת קבצים"}
+                    נהל קבצים בשרת
                 </Button>
 
-                {showTable && (
-                    <Box sx={{
-                        flex: 1,
-                        width: '100%',
-                        minHeight: 0,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        border: '1px solid #eee',
-                        borderRadius: 2,
-                        overflow: 'hidden',
-                    }}>
+                <Dialog
+                    open={openTable}
+                    onClose={() => setOpenTable(false)}
+                    fullWidth
+                    maxWidth="md" // נותן לטבלה רוחב מקסימלי נוח (Medium)
+                    scroll="paper" // גורם לגלילה להיות רק בתוך התוכן של הדיאלוג
+                >
+                    <DialogTitle sx={{ m: 0, p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="h6">ניהול קבצים מהשרת</Typography>
+                        <IconButton onClick={() => setOpenTable(false)}>
+                            <CloseIcon />
+                        </IconButton>
+                    </DialogTitle>
 
-                        <Box sx={{ flex: 1, minHeight: 0, width: '100%' }}>
-                            <FileTableManagement />
-                        </Box>
-                    </Box>
-                )}
+                    {/* NEW: ה-dividers יוצרים קווים מפרידים מעל ומתחת לטבלה */}
+                    <DialogContent dividers sx={{ height: '60vh', p: 0 }}>
+                        <FileTableManagement />
+                    </DialogContent>
 
+                    <DialogActions sx={{ p: 2 }}>
+                        <Button onClick={() => setOpenTable(false)} variant="outlined">
+                            סגור
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Stack>
         </Paper>
     );
